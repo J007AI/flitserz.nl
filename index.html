@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flitserz — AI Agents voor MKB</title>
+  <title>Flitserz — AI Agents voor MKB | Van idee naar werkende AI Agent in 5 dagen</title>
+  <meta name="description" content="Flitserz implementeert AI Agents direct in jouw bedrijfsproces. Live in 5 dagen, vast tarief, EU AI Act compliant. Voor MKB in Nijmegen & omgeving." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
     :root {
       --bg: #0a0a0a;
       --surface: #111;
       --accent: #f5e228;
       --accent2: #ff5c00;
       --text: #f0ede4;
-      --muted: #666;
+      --muted: #888;
+      --muted-dark: #666;
       --border: #222;
     }
- 
+
     html { scroll-behavior: smooth; }
- 
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -29,7 +31,7 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
- 
+
     /* NOISE OVERLAY */
     body::before {
       content: '';
@@ -40,8 +42,7 @@
       z-index: 999;
       opacity: 0.4;
     }
- 
-    /* GRID BG */
+
     .grid-bg {
       position: fixed;
       inset: 0;
@@ -52,8 +53,7 @@
       opacity: 0.4;
       pointer-events: none;
     }
- 
-    /* GLOW */
+
     .glow {
       position: fixed;
       top: -200px;
@@ -64,7 +64,24 @@
       background: radial-gradient(ellipse, rgba(245,226,40,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
- 
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* ANNOUNCEMENT BAR */
+    .announce {
+      position: relative;
+      z-index: 20;
+      background: var(--accent);
+      color: #0a0a0a;
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .announce a { color: #0a0a0a; font-weight: 700; text-decoration: underline; }
+
     /* HEADER */
     header {
       position: relative;
@@ -72,10 +89,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 32px 48px;
+      padding: 28px 48px;
       border-bottom: 1px solid var(--border);
     }
- 
+
     .logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
@@ -83,33 +100,61 @@
       letter-spacing: -0.03em;
       color: var(--text);
     }
- 
-    .logo span {
-      color: var(--accent);
-    }
- 
-    .badge {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; gap: 28px; align-items: center; }
+    nav a {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 6px 14px;
-      border-radius: 100px;
+      text-decoration: none;
+      transition: color 0.2s;
     }
- 
+    nav a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .btn:hover { background: #ffe94d; }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--surface); border-color: var(--muted-dark); }
+
+    .btn-whatsapp { background: #25d366; color: #0a0a0a; }
+    .btn-whatsapp:hover { background: #3ee07c; }
+
     /* HERO */
     .hero {
       position: relative;
       z-index: 10;
-      min-height: calc(100vh - 80px);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 80px 48px;
+      padding: 100px 48px 80px;
       max-width: 1100px;
+      margin: 0 auto;
     }
- 
+
     .eyebrow {
       font-size: 0.72rem;
       letter-spacing: 0.2em;
@@ -120,7 +165,6 @@
       align-items: center;
       gap: 12px;
     }
- 
     .eyebrow::before {
       content: '';
       display: block;
@@ -128,56 +172,236 @@
       height: 1px;
       background: var(--accent);
     }
- 
+
     h1 {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      line-height: 0.95;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      line-height: 0.98;
       letter-spacing: -0.04em;
       margin-bottom: 32px;
       max-width: 900px;
     }
- 
-    h1 em {
-      font-style: normal;
-      color: var(--accent);
-      position: relative;
-    }
- 
-    h1 .strike {
-      position: relative;
-      color: var(--muted);
-    }
- 
-    h1 .strike::after {
-      content: '';
-      position: absolute;
-      left: 0; right: 0;
-      top: 50%;
-      height: 3px;
-      background: var(--accent2);
-      transform: rotate(-1deg);
-    }
- 
+    h1 em { font-style: normal; color: var(--accent); }
+
     .sub {
       font-size: 1.1rem;
       color: var(--muted);
-      max-width: 480px;
+      max-width: 540px;
       line-height: 1.7;
-      margin-bottom: 52px;
+      margin-bottom: 44px;
     }
- 
-    /* FORM */
-    .waitlist {
+
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+    .usp-row {
       display: flex;
-      gap: 0;
-      max-width: 480px;
+      gap: 24px;
+      margin-top: 28px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      flex-wrap: wrap;
     }
- 
-    .waitlist input {
-      flex: 1;
+    .usp-row span::before { content: '✓ '; color: var(--accent); }
+
+    /* STATS */
+    .stats {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat { flex: 1; padding: 36px 48px; border-right: 1px solid var(--border); }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.4rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label {
+      font-size: 0.74rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 10; padding: 100px 48px; }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      max-width: 640px;
+    }
+
+    .section-intro { color: var(--muted); max-width: 540px; line-height: 1.7; margin-bottom: 56px; }
+
+    /* USE CASES */
+    .cases {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .case {
+      background: var(--bg);
+      padding: 36px 32px;
+      transition: background 0.2s;
+    }
+    .case:hover { background: #0f0f0f; }
+    .case-icon { font-size: 1.6rem; margin-bottom: 18px; }
+    .case h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .case p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+    .case-result {
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+
+    /* STEPS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .step {
+      background: var(--bg);
+      padding: 40px 32px;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .step:hover { background: #0f0f0f; }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3.4rem;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 22px;
+      letter-spacing: -0.05em;
+    }
+    .step.always .step-num { color: rgba(245,226,40,0.25); }
+    .step h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+    .step-tag {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(245,226,40,0.3);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    /* EU AI ACT */
+    .compliance {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      border: 1px solid var(--border);
       background: var(--surface);
+      padding: 48px;
+      border-radius: 6px;
+    }
+    .compliance-badge {
+      flex-shrink: 0;
+      width: 140px;
+      height: 140px;
+      border: 1px solid rgba(245,226,40,0.4);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-align: center;
+    }
+    .compliance-badge .icon { font-size: 1.8rem; }
+    .compliance h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .compliance p { font-size: 0.92rem; color: var(--muted); line-height: 1.75; }
+
+    /* ACTIE / VOUCHER */
+    .actie {
+      border: 1px solid rgba(245,226,40,0.35);
+      background: linear-gradient(135deg, rgba(245,226,40,0.06), transparent 60%);
+      border-radius: 6px;
+      padding: 56px 48px;
+      display: flex;
+      gap: 56px;
+      align-items: center;
+    }
+    .actie-left { flex: 1.4; }
+    .actie-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #0a0a0a;
+      background: var(--accent);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-weight: 500;
+      margin-bottom: 22px;
+    }
+    .actie h2 { margin-bottom: 16px; }
+    .actie p.intro { color: var(--muted); line-height: 1.7; max-width: 520px; margin-bottom: 28px; }
+    .actie ul { list-style: none; margin-bottom: 32px; }
+    .actie li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding: 7px 0;
+      line-height: 1.5;
+    }
+    .actie li::before { content: '✓  '; color: var(--accent); }
+
+    .voucher-form { display: flex; max-width: 480px; }
+    .voucher-form input {
+      flex: 1;
+      background: var(--bg);
       border: 1px solid var(--border);
       border-right: none;
       color: var(--text);
@@ -188,221 +412,227 @@
       outline: none;
       transition: border-color 0.2s;
     }
- 
-    .waitlist input::placeholder { color: var(--muted); }
-    .waitlist input:focus { border-color: var(--accent); }
- 
-    .waitlist button {
+    .voucher-form input::placeholder { color: var(--muted-dark); }
+    .voucher-form input:focus { border-color: var(--accent); }
+    .voucher-form button { border-radius: 0 4px 4px 0; }
+    .form-note { font-size: 0.74rem; color: var(--muted-dark); margin-top: 14px; }
+    .success-msg { display: none; font-size: 0.88rem; color: var(--accent); margin-top: 14px; }
+
+    .actie-right {
+      flex: 1;
+      text-align: center;
+      border-left: 1px solid var(--border);
+      padding-left: 56px;
+    }
+    .big-discount {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 5.5rem;
+      letter-spacing: -0.05em;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .big-discount-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-top: 8px;
+    }
+    .big-discount-sub { font-size: 0.8rem; color: var(--muted); margin-top: 12px; }
+
+    /* PRICING */
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+    .plan {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 6px;
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .plan.featured { border-color: rgba(245,226,40,0.5); }
+    .plan-flag {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
       background: var(--accent);
       color: #0a0a0a;
-      border: none;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
+      font-size: 0.64rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 16px 28px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      white-space: nowrap;
+      padding: 5px 14px;
+      border-radius: 100px;
     }
- 
-    .waitlist button:hover { background: #ffe94d; }
-    .waitlist button:active { transform: scale(0.98); }
- 
-    /* STATS ROW */
-    .stats {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      gap: 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin-top: auto;
+    .plan h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
     }
- 
-    .stat {
-      flex: 1;
-      padding: 36px 48px;
-      border-right: 1px solid var(--border);
-    }
- 
-    .stat:last-child { border-right: none; }
- 
-    .stat-num {
+    .plan-price {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 2.4rem;
       letter-spacing: -0.04em;
-      color: var(--text);
-      margin-bottom: 4px;
     }
- 
-    .stat-num span { color: var(--accent); }
- 
-    .stat-label {
-      font-size: 0.78rem;
+    .plan-period { font-size: 0.78rem; color: var(--muted); margin-bottom: 28px; }
+    .plan ul { list-style: none; margin-bottom: 32px; flex: 1; }
+    .plan li {
+      font-size: 0.85rem;
       color: var(--muted);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
     }
- 
-    /* HOW */
-    .how {
-      position: relative;
-      z-index: 10;
-      padding: 100px 48px;
-      max-width: 1100px;
+    .plan li:last-child { border-bottom: none; }
+    .plan li::before { content: '✓  '; color: var(--accent); }
+    .plan .btn { text-align: center; }
+
+    /* WHATSAPP CTA */
+    .contact-cta {
+      text-align: center;
+      border-top: 1px solid var(--border);
     }
- 
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 48px;
-    }
- 
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
- 
-    .step {
-      background: var(--bg);
-      padding: 40px 36px;
-      position: relative;
-      transition: background 0.2s;
-    }
- 
-    .step:hover { background: #0f0f0f; }
- 
-    .step-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 4rem;
-      font-weight: 800;
-      color: var(--border);
-      line-height: 1;
-      margin-bottom: 24px;
-      letter-spacing: -0.05em;
-    }
- 
-    .step h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text);
-    }
- 
-    .step p {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
- 
-    .step-tag {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid rgba(245,226,40,0.3);
-      padding: 4px 10px;
-      border-radius: 100px;
-    }
- 
+    .contact-cta .section-label { margin-bottom: 20px; }
+    .contact-cta h2 { margin: 0 auto 18px; }
+    .contact-cta p { color: var(--muted); max-width: 480px; margin: 0 auto 36px; line-height: 1.7; }
+    .contact-cta .mail-alt { font-size: 0.84rem; color: var(--muted-dark); margin-top: 20px; }
+    .contact-cta .mail-alt a { color: var(--muted); }
+
     /* FOOTER */
     footer {
       position: relative;
       z-index: 10;
-      padding: 32px 48px;
       border-top: 1px solid var(--border);
+      padding: 64px 48px 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      max-width: 1100px;
+      margin: 0 auto 56px;
+    }
+    .footer-grid h4 {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted-dark);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+    .footer-grid p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; max-width: 280px; }
+    .footer-grid ul { list-style: none; }
+    .footer-grid li { padding: 5px 0; }
+    .footer-grid a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-grid a:hover { color: var(--text); }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
- 
-    footer p {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
- 
-    footer a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.78rem;
-      transition: color 0.2s;
-    }
- 
-    footer a:hover { color: var(--text); }
- 
+    .footer-bottom p, .footer-bottom a { font-size: 0.76rem; color: var(--muted-dark); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--muted); }
+    .footer-links { display: flex; gap: 24px; }
+
     /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
- 
-    .eyebrow  { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
-    h1        { animation: fadeUp 0.6s ease both; animation-delay: 0.2s; }
-    .sub      { animation: fadeUp 0.6s ease both; animation-delay: 0.35s; }
-    .waitlist { animation: fadeUp 0.6s ease both; animation-delay: 0.5s; }
- 
-    /* SUCCESS STATE */
-    .success-msg {
-      display: none;
-      font-size: 0.88rem;
-      color: var(--accent);
-      margin-top: 14px;
-      letter-spacing: 0.02em;
+    .eyebrow   { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+    h1         { animation: fadeUp 0.6s ease both; animation-delay: 0.2s; }
+    .sub       { animation: fadeUp 0.6s ease both; animation-delay: 0.35s; }
+    .hero-cta  { animation: fadeUp 0.6s ease both; animation-delay: 0.5s; }
+    .usp-row   { animation: fadeUp 0.6s ease both; animation-delay: 0.6s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .cases, .steps, .pricing { grid-template-columns: 1fr; }
+      .compliance, .actie { flex-direction: column; align-items: flex-start; }
+      .actie-right { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 36px; width: 100%; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      nav .nav-links { display: none; }
     }
- 
     @media (max-width: 768px) {
-      header, .hero, .how, footer { padding-left: 24px; padding-right: 24px; }
+      header, section, footer { padding-left: 24px; padding-right: 24px; }
+      .hero { padding: 64px 24px; }
       .stats { flex-direction: column; }
-      .stat { border-right: none; border-bottom: 1px solid var(--border); }
-      .steps { grid-template-columns: 1fr; }
-      .waitlist { flex-direction: column; }
-      .waitlist input { border-right: 1px solid var(--border); border-bottom: none; border-radius: 4px 4px 0 0; }
-      .waitlist button { border-radius: 0 0 4px 4px; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 24px; }
+      .voucher-form { flex-direction: column; }
+      .voucher-form input { border-right: 1px solid var(--border); border-bottom: none; border-radius: 4px 4px 0 0; }
+      .voucher-form button { border-radius: 0 0 4px 4px; }
+      .footer-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
- 
+
 <div class="grid-bg"></div>
 <div class="glow"></div>
- 
+
+<div class="announce">
+  🎉 Openingsactie: 10% korting op jouw eerste traject — <a href="#actie">claim je voucher</a>
+</div>
+
 <header>
   <div class="logo">Flitser<span>z</span></div>
-  <div class="badge">AI Agents · By Kaizers · Nijmegen</div>
+  <nav>
+    <span class="nav-links">
+      <a href="#wat">Wat we bouwen</a> &nbsp;&nbsp;
+      <a href="#aanpak">Aanpak</a> &nbsp;&nbsp;
+      <a href="#tarieven">Tarieven</a> &nbsp;&nbsp;
+      <a href="#contact">Contact</a>
+    </span>
+    <a class="btn btn-whatsapp" href="https://wa.me/31620200734?text=Hoi%20Flitserz%2C%20ik%20heb%20een%20vraag%20over%20AI%20Agents" target="_blank" rel="noopener">WhatsApp ons →</a>
+  </nav>
 </header>
- 
+
 <main>
+
+  <!-- HERO -->
   <section class="hero">
-    <div class="eyebrow">AI Agents voor MKB</div>
-    <h1>Van idee naar<br>werkende AI Agents<br>in <em>5 dagen</em></h1>
+    <div class="eyebrow">AI Agents voor MKB — Nijmegen &amp; omgeving</div>
+    <h1>Van idee naar<br>werkende AI Agent<br>in <em>5 dagen</em></h1>
     <p class="sub">
-      Geen maandenlange trajecten. Geen dikke rapporten. 
-      Flitserz zet AI Agents direct in jouw bedrijfsproces — zelfstandig werkend, snel en meetbaar.
+      Geen maandenlange trajecten. Geen dikke rapporten.
+      Flitserz implementeert AI Agents direct in jouw bedrijfsproces — zelfstandig werkend, snel en meetbaar.
     </p>
-    <div class="waitlist">
-      <input type="email" id="email" placeholder="jouw@email.nl" />
-      <button onclick="handleSubmit()">Aanmelden</button>
+    <div class="hero-cta">
+      <a class="btn" href="#actie">Gratis intake plannen →</a>
+      <a class="btn btn-ghost" href="#wat">Bekijk wat we bouwen</a>
     </div>
-    <p class="success-msg" id="success">✓ Goed ontvangen — we nemen snel contact op.</p>
+    <div class="usp-row">
+      <span>Geen verplichtingen</span>
+      <span>Resultaat in één week</span>
+      <span>Vast tarief</span>
+    </div>
   </section>
- 
+
+  <!-- STATS -->
   <div class="stats">
     <div class="stat">
       <div class="stat-num">5<span>d</span></div>
       <div class="stat-label">Van intake tot live</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">68<span>%</span></div>
+      <div class="stat-label">Gem. tijdsbesparing per proces</div>
     </div>
     <div class="stat">
       <div class="stat-num"><span>€</span>0</div>
@@ -413,51 +643,298 @@
       <div class="stat-label">Vast tarief, geen verrassingen</div>
     </div>
   </div>
- 
-  <section class="how">
-    <div class="section-label">Hoe het werkt</div>
+
+  <!-- USE CASES -->
+  <section id="wat">
+    <div class="section-label">Wat we bouwen</div>
+    <h2>AI Agents die echt werken in jouw sector</h2>
+    <p class="section-intro">
+      Elke agent wordt op maat gebouwd op jouw processen, jouw data en jouw systemen.
+      Dit zijn de meest gevraagde toepassingen — staat jouw use case er niet bij? Stel hem voor.
+    </p>
+    <div class="cases">
+      <div class="case">
+        <div class="case-icon">📋</div>
+        <h3>Offerte-agent</h3>
+        <p>Verwerkt aanvragen, stelt offertes op en verstuurt deze automatisch op basis van jouw prijslijst en klantdata.</p>
+        <div class="case-result">↓ 80% minder tijd per offerte</div>
+      </div>
+      <div class="case">
+        <div class="case-icon">📞</div>
+        <h3>Klantenservice-agent</h3>
+        <p>Beantwoordt e-mails en chats 24/7, escaleert complexe vragen naar een medewerker en logt alles automatisch.</p>
+        <div class="case-result">↓ 60% minder support-tickets</div>
+      </div>
+      <div class="case">
+        <div class="case-icon">📅</div>
+        <h3>Planning-agent</h3>
+        <p>Plant afspraken, stuurt herinneringen en koppelt direct aan jouw agenda en projectsoftware.</p>
+        <div class="case-result">→ 12 uur/week teruggewonnen</div>
+      </div>
+      <div class="case">
+        <div class="case-icon">📊</div>
+        <h3>Rapportage-agent</h3>
+        <p>Haalt data op uit je systemen en genereert wekelijks automatisch overzichten voor management en klanten.</p>
+        <div class="case-result">↑ 100% op tijd, altijd accuraat</div>
+      </div>
+      <div class="case">
+        <div class="case-icon">📦</div>
+        <h3>Inkoop-agent</h3>
+        <p>Bewaakt voorraden, plaatst bestellingen bij leveranciers en bevestigt automatisch — zonder handmatige tussenkomst.</p>
+        <div class="case-result">↓ 90% minder handmatig werk</div>
+      </div>
+      <div class="case">
+        <div class="case-icon">📝</div>
+        <h3>HR-onboarding-agent</h3>
+        <p>Stuurt contracten, verzamelt documenten en regelt systeem-toegang automatisch bij iedere nieuwe medewerker.</p>
+        <div class="case-result">→ Van 3 dagen naar 3 uur</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AANPAK -->
+  <section id="aanpak">
+    <div class="section-label">Onze aanpak</div>
+    <h2>Live in 5 dagen — gegarandeerd</h2>
+    <p class="section-intro">
+      Eén week, één duidelijk traject. Jij weet vooraf precies wat er gebeurt, wat het kost en wat het oplevert.
+    </p>
     <div class="steps">
+      <div class="step always">
+        <div class="step-num">00</div>
+        <div class="step-tag">Altijd inbegrepen</div>
+        <h3>AI Literacy check</h3>
+        <p>Voordat we bouwen, zorgen we dat jouw team begrijpt wat AI wel en niet kan. Verplicht onderdeel — conform de EU AI Act. Geen AI-achtergrond vereist.</p>
+      </div>
       <div class="step">
         <div class="step-num">01</div>
         <div class="step-tag">Dag 1</div>
-        <h3>Intake & diagnose</h3>
-        <p>We brengen in kaart welke taken in jouw werkproces een AI Agent kan overnemen. Concreet, geen theorie.</p>
+        <h3>Intake &amp; diagnose</h3>
+        <p>We brengen in kaart welke taken een AI Agent kan overnemen. Concreet, geen theorie. Resultaat: een helder projectplan met verwachte ROI.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
         <div class="step-tag">Dag 2–4</div>
-        <h3>Bouwen & testen</h3>
-        <p>Onze specialisten bouwen en trainen de AI Agent op jouw data en workflows. Jij test live en geeft directe feedback.</p>
+        <h3>Bouwen &amp; testen</h3>
+        <p>Onze specialisten bouwen en trainen de agent op jouw data en workflows. Jij test live en geeft directe feedback — we itereren snel.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
         <div class="step-tag">Dag 5</div>
-        <h3>Live & overdracht</h3>
-        <p>De AI Agent draait zelfstandig in jouw omgeving. Je team is getraind en volledig in control.</p>
+        <h3>Live &amp; overdracht</h3>
+        <p>De AI Agent draait zelfstandig in jouw omgeving. Jouw team is volledig getraind, de documentatie is klaar. Wij blijven 30 dagen beschikbaar.</p>
       </div>
     </div>
   </section>
+
+  <!-- EU AI ACT -->
+  <section>
+    <div class="compliance">
+      <div class="compliance-badge">
+        <div class="icon">⚖️</div>
+        EU AI Act<br>Compliant
+      </div>
+      <div>
+        <h3>AI Literacy inbegrepen — conform de EU AI Act (Art. 4)</h3>
+        <p>
+          Elk Flitserz-traject start met een praktische AI-basismodule voor jouw team.
+          Zo voldoe je direct aan de verplichting uit de EU AI Act (Art. 4) om medewerkers
+          die met AI werken voldoende geletterd te laten zijn.
+          Geen extra kosten, geen apart traject — gewoon inbegrepen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPENINGSACTIE -->
+  <section id="actie">
+    <div class="actie">
+      <div class="actie-left">
+        <span class="actie-tag">🎉 Openingsactie</span>
+        <h2>Meld je nu aan en ontvang 10% korting</h2>
+        <p class="intro">
+          Flitserz start na de zomer van 2026 met de eerste trajecten. Schrijf je in en ontvang
+          direct een vouchercode van 10% korting op jouw eerste project — geldig zodra de planning opengaat.
+        </p>
+        <ul>
+          <li>Persoonlijke vouchercode per e-mail</li>
+          <li>Eerste afspraken worden ingepland na de zomer 2026</li>
+          <li>Geen verplichtingen, je bepaalt zelf wanneer je start</li>
+          <li>Vroege aanmelders krijgen voorrang in de planning</li>
+        </ul>
+        <div class="voucher-form">
+          <input type="email" id="email" placeholder="jouw@email.nl" />
+          <input type="text" id="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true" />
+          <button class="btn" id="submitBtn" onclick="handleSubmit()">Stuur mijn voucher →</button>
+        </div>
+        <p class="success-msg" id="success">✓ Goed ontvangen — je voucher is onderweg naar je inbox.</p>
+        <p class="form-note">Je ontvangt de vouchercode direct in je inbox. Geen spam, uitschrijven kan altijd.</p>
+      </div>
+      <div class="actie-right">
+        <div class="big-discount">10%</div>
+        <div class="big-discount-label">Korting</div>
+        <div class="big-discount-sub">op jouw eerste Flitserz-traject</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TARIEVEN -->
+  <section id="tarieven">
+    <div class="section-label">Transparant</div>
+    <h2>Eén vast tarief, geen verrassingen</h2>
+    <p class="section-intro">
+      Je weet vooraf exact wat je betaalt en wat je krijgt. Alle bedragen zijn eenmalig en exclusief BTW.
+    </p>
+    <div class="pricing">
+      <div class="plan">
+        <h3>Starter</h3>
+        <div class="plan-price">€2.950</div>
+        <div class="plan-period">eenmalig, excl. BTW</div>
+        <ul>
+          <li>1 AI Agent op maat</li>
+          <li>5-daags implementatietraject</li>
+          <li>Koppeling met 1 bestaand systeem</li>
+          <li>AI Literacy module (EU AI Act Art. 4)</li>
+          <li>Training van jouw team</li>
+          <li>30 dagen nazorg</li>
+        </ul>
+        <a class="btn btn-ghost" href="#actie">Kies Starter</a>
+      </div>
+      <div class="plan featured">
+        <span class="plan-flag">Meest gekozen</span>
+        <h3>Groei</h3>
+        <div class="plan-price">€5.950</div>
+        <div class="plan-period">eenmalig, excl. BTW</div>
+        <ul>
+          <li>Tot 3 AI Agents op maat</li>
+          <li>5-daags implementatietraject</li>
+          <li>Koppelingen met meerdere systemen</li>
+          <li>AI Literacy module (EU AI Act Art. 4)</li>
+          <li>Training van jouw team</li>
+          <li>60 dagen nazorg &amp; optimalisatie</li>
+          <li>Maandelijkse performance review</li>
+        </ul>
+        <a class="btn" href="#actie">Kies Groei</a>
+      </div>
+      <div class="plan">
+        <h3>Enterprise</h3>
+        <div class="plan-price">Op maat</div>
+        <div class="plan-period">offerte op aanvraag</div>
+        <ul>
+          <li>Onbeperkt aantal agents</li>
+          <li>Dedicated implementatieteam</li>
+          <li>Enterprise integraties (ERP, CRM)</li>
+          <li>SLA met gegarandeerde uptime</li>
+          <li>Doorlopend beheer &amp; support</li>
+          <li>Strategische AI roadmap</li>
+        </ul>
+        <a class="btn btn-ghost" href="#contact">Neem contact op</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-cta">
+    <div class="section-label">Vragen of alvast kennismaken?</div>
+    <h2>Stuur ons een WhatsApp-bericht</h2>
+    <p>Nog geen verplichtingen — gewoon een korte vraag stellen mag ook. We reageren binnen één werkdag.</p>
+    <a class="btn btn-whatsapp" href="https://wa.me/31620200734?text=Hoi%20Flitserz%2C%20ik%20heb%20een%20vraag%20over%20AI%20Agents" target="_blank" rel="noopener">Stuur een WhatsApp</a>
+    <p class="mail-alt">Of mail naar: <a href="mailto:hallo@kaizers.nl">hallo@kaizers.nl</a></p>
+  </section>
+
 </main>
- 
+
 <footer>
-  <p>© 2026 Flitserz — een product van <a href="https://kaizers.nl" target="_blank">Kaizers</a></p>
-  <a href="mailto:hallo@kaizers.nl">hallo@kaizers.nl</a>
+  <div class="footer-grid">
+    <div>
+      <div class="logo" style="margin-bottom:16px;">Flitser<span>z</span></div>
+      <p>AI Agents voor het MKB. Snel, concreet en meetbaar. Een product van Kaizers — gevestigd in Nijmegen.</p>
+    </div>
+    <div>
+      <h4>Diensten</h4>
+      <ul>
+        <li><a href="#wat">Offerte-agent</a></li>
+        <li><a href="#wat">Klantenservice-agent</a></li>
+        <li><a href="#wat">Planning-agent</a></li>
+        <li><a href="#wat">Rapportage-agent</a></li>
+        <li><a href="#wat">Inkoop-agent</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Bedrijf</h4>
+      <ul>
+        <li><a href="https://kaizers.nl" target="_blank" rel="noopener">Over Kaizers</a></li>
+        <li><a href="#aanpak">Werkwijze</a></li>
+        <li><a href="#tarieven">Tarieven</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hallo@kaizers.nl">hallo@kaizers.nl</a></li>
+        <li><a href="https://wa.me/31620200734" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="#">Nijmegen, NL</a></li>
+        <li><a href="https://kaizers.nl" target="_blank" rel="noopener">kaizers.nl</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Flitserz — een product van Kaizers</p>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Algemene voorwaarden</a>
+      <a href="#">KvK: 12345678</a>
+    </div>
+  </div>
 </footer>
- 
+
 <script>
-  function handleSubmit() {
-    const email = document.getElementById('email').value;
+  // ⚙️ Vervang door jouw Worker-URL na deploy (zie backend/README.md)
+  const API_URL = 'https://flitserz-api.JOUW-ACCOUNT.workers.dev/api/subscribe';
+
+  async function handleSubmit() {
+    const emailInput = document.getElementById('email');
+    const email = emailInput.value.trim();
     const success = document.getElementById('success');
-    if (!email || !email.includes('@')) {
-      document.getElementById('email').style.borderColor = '#ff5c00';
-      setTimeout(() => document.getElementById('email').style.borderColor = '', 1500);
+    const btn = document.getElementById('submitBtn');
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      emailInput.style.borderColor = '#ff5c00';
+      setTimeout(() => emailInput.style.borderColor = '', 1500);
       return;
     }
-    success.style.display = 'block';
-    document.querySelector('.waitlist').style.opacity = '0.4';
-    document.querySelector('.waitlist').style.pointerEvents = 'none';
+
+    btn.textContent = 'Versturen…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          website: document.getElementById('website').value // honeypot
+        })
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'request_failed');
+
+      success.textContent = data.existing
+        ? '✓ Je was al aangemeld — je voucher is eerder al verstuurd. Check ook je spam.'
+        : '✓ Goed ontvangen — je voucher is onderweg naar je inbox.';
+      success.style.display = 'block';
+      document.querySelector('.voucher-form').style.opacity = '0.4';
+      document.querySelector('.voucher-form').style.pointerEvents = 'none';
+    } catch (e) {
+      success.textContent = '✗ Er ging iets mis. Probeer het opnieuw of mail hallo@kaizers.nl.';
+      success.style.display = 'block';
+      success.style.color = '#ff5c00';
+      btn.textContent = 'Stuur mijn voucher →';
+      btn.disabled = false;
+    }
   }
 </script>
- 
+
 </body>
 </html>
